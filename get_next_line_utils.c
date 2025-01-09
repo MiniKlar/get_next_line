@@ -6,7 +6,7 @@
 /*   By: lomont <lomont@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 02:29:22 by lomont            #+#    #+#             */
-/*   Updated: 2025/01/08 04:18:23 by lomont           ###   ########.fr       */
+/*   Updated: 2025/01/09 04:34:14 by lomont           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	str[i] = '\0';
 	return (str);
 }
+
 size_t	ft_strlen(const char *s)
 {
 	int	i;
@@ -47,6 +48,7 @@ size_t	ft_strlen(const char *s)
 	}
 	return (i);
 }
+
 char	*ft_strdup(const char *s)
 {
 	char	*tmp;
@@ -73,6 +75,7 @@ char	*ft_strchr(const char *s, int c)
 	else
 		return (NULL);
 }
+
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*new_s;
@@ -89,4 +92,3 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	new_s[lens1 + lens2] = '\0';
 	return (new_s);
 }
-
