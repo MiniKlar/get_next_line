@@ -6,7 +6,7 @@
 /*   By: lomont <lomont@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 02:29:25 by lomont            #+#    #+#             */
-/*   Updated: 2025/01/09 04:35:22 by lomont           ###   ########.fr       */
+/*   Updated: 2025/01/15 03:14:34 by lomont           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
+# define BUFFER_SIZE 3
 # endif
 char	*get_next_line(int fd);
-char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	fill_str(char *res, char *s1, char *s2);
 size_t	ft_strlen(const char *s);
 
 # endif

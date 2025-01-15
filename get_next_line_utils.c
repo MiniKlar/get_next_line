@@ -6,7 +6,7 @@
 /*   By: lomont <lomont@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 02:29:22 by lomont            #+#    #+#             */
-/*   Updated: 2025/01/09 04:34:14 by lomont           ###   ########.fr       */
+/*   Updated: 2025/01/15 02:59:58 by lomont           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*ft_strdup(const char *s)
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (*s == '\0')
+		return (NULL);
 	while (*s)
 	{
 		if (*s == (const char)c)
@@ -75,7 +77,7 @@ char	*ft_strchr(const char *s, int c)
 	else
 		return (NULL);
 }
-
+/*
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*new_s;
@@ -91,4 +93,30 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	ft_memcpy(new_s + lens1, s2, lens2);
 	new_s[lens1 + lens2] = '\0';
 	return (new_s);
+}*/
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char			*res;
+
+	res = (char *) malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	fill_str(res, s1, s2);
+	return (res);
+}
+
+void	fill_str(char *res, char *s1, char *s2)
+{
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	j = 0;
+	while (s1[j])
+		res[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
+	res[i] = '\0';
 }

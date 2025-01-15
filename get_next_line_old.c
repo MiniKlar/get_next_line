@@ -5,80 +5,76 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomont <lomont@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 23:45:57 by lomont            #+#    #+#             */
-/*   Updated: 2025/01/15 03:16:30 by lomont           ###   ########.fr       */
+/*   Created: 2025/01/08 02:29:19 by lomont            #+#    #+#             */
+/*   Updated: 2025/01/09 04:59:06 by lomont           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *fill_line_buffer(char *left_c, int fd)
+char	*fill_line_buffer(int fd, char *left_c, char *buffer)
 {
-	char	*buffer;
-	char	*temp;
-	ssize_t	b_read;
-
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
+	char *tmp;
+	size_t b_read;
+	
 	if (!left_c)
 		left_c = ft_strdup("");
-	if (!left_c)
-		return (free(buffer), NULL);
+
 	b_read = 1;
-	while (b_read > 0 && !ft_strchr(left_c, '\n'))
+	while (b_read > 0 && ft_strchr(left_c, '\n') == 0)
 	{
-		b_read = read(fd, buffer, BUFFER_SIZE);
-		if (b_read == -1)
-			return (free(buffer), free(left_c), NULL);
-		buffer[b_read] = '\0';
-		temp = left_c;
-		left_c = ft_strjoin(left_c, buffer);
-		free(temp);
+		read(fd, buffer, BUFFER_SIZE);
+		dprintf(STDERR_FILENO, "on a read");
 		if (!left_c)
-			return (free(buffer), NULL);
+			left_c = ft_strdup(buffer);
+		else
+		{
+			tmp = left_c;
+			left_c = ft_strjoin(tmp, buffer);
+		}
 	}
-	free(buffer);
+	free(tmp);
 	return (left_c);
 }
 
-/*{
-	int b_read;
-	char *buffer;
-	char *tmp;
-
-	b_read = 1;
-	if (!left_c)
-		left_c = ft_strdup("");
-	if (!left_c)
-		return (free(left_c), NULL);
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-		return (NULL);
-	while (b_read > 0 && ft_strchr(left_c, '\n') == 0)
-	{
-		b_read = read(fd, buffer, BUFFER_SIZE);
-		if (b_read == -1)
-			return (free(buffer), free(left_c), NULL);
-		buffer[b_read] = '\0';
-		//printf("Voici le total de b_read : %d\n", b_read);
-		tmp = left_c;
-		left_c = ft_strjoin(left_c, buffer);
-		free(tmp);
-		if (!left_c)
-			return (free(buffer), NULL);
-	}
-	return (free(buffer), left_c);
-}*/
-
 char	*set_line(char *line_buffer)
 {
-	char *left_c;
-	size_t i;
+	size_t		i;
+	char		*left_c;
 
+	if (!line_buffer)
+		return (NULL);
 	i = 0;
 	left_c = NULL;
-	return(left_c);	
+	while (line_buffer[i] != '\n' && line_buffer[i] != '\0')
+		i++;
+	left_c = ft_substr(line_buffer, i, ft_strlen(line_buffer) - i);
+	if (!left_c)
+		return (NULL);
+	line_buffer[i] = '\0';
+	return (left_c);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*left_c;
+	char		*line;
+	char		*buffer;
+
+	buffer = calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!buffer)
+		return (NULL);
+	// buffer[0] = '\0' ;
+	left_c = NULL;
+	if (fd > 0)
+		line = fill_line_buffer(fd, left_c, buffer);
+	else
+	{
+		free(buffer);
+		return (NULL);
+	}
+	left_c = set_line(line);
+	return (line);
 }
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
@@ -123,16 +119,4 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		i++;
 	}
 	return (dest);
-}
-
-int main(void)
-{
-	static char *left_c;
-	int fd;
-
-	fd = open("feur", O_RDONLY);
-	printf("%s\n", fill_line_buffer(left_c, fd));
-	free(left_c);
-	close (fd);
-	return (0);
 }
