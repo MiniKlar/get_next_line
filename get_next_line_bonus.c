@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomont <lomont@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 23:45:57 by lomont            #+#    #+#             */
-/*   Updated: 2025/01/19 03:28:31 by lomont           ###   ########.fr       */
+/*   Created: 2025/01/19 03:20:52 by lomont            #+#    #+#             */
+/*   Updated: 2025/01/19 03:22:21 by lomont           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*fill_line_buffer(char *left_c, int fd)
 {
@@ -67,34 +67,34 @@ char	*set_left_c(char *line_buffer)
 		i++;
 	if (!line_buffer[i])
 		return (NULL);
-	line = ft_substr(line_buffer, i + 2, k - i);
+	line = ft_substr(line_buffer, i + 1, k - i);
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*left_c;
+	static char	*left_c[MAX_FD];
 	char		*line;
 	char		*temp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free(left_c);
-		left_c = NULL;
+		free(left_c[fd]);
+		left_c[fd] = NULL;
 		return (NULL);
 	}
-	left_c = fill_line_buffer(left_c, fd);
-	if (!left_c)
+	left_c[fd] = fill_line_buffer(left_c[fd], fd);
+	if (!left_c[fd])
 		return (NULL);
-	line = set_line(left_c);
+	line = set_line(left_c[fd]);
 	if (!line)
 	{
-		free(left_c);
-		left_c = NULL;
+		free(left_c[fd]);
+		left_c[fd] = NULL;
 		return (NULL);
 	}
-	temp = left_c;
-	left_c = set_left_c(left_c);
+	temp = left_c[fd];
+	left_c[fd] = set_left_c(left_c[fd]);
 	free(temp);
 	return (line);
 }
