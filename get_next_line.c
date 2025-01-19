@@ -6,7 +6,7 @@
 /*   By: lomont <lomont@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 23:45:57 by lomont            #+#    #+#             */
-/*   Updated: 2025/01/19 03:28:31 by lomont           ###   ########.fr       */
+/*   Updated: 2025/01/19 03:53:49 by lomont           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*set_left_c(char *line_buffer)
 		i++;
 	if (!line_buffer[i])
 		return (NULL);
-	line = ft_substr(line_buffer, i + 2, k - i);
+	line = ft_substr(line_buffer, i + 1, k - i);
 	return (line);
 }
 
